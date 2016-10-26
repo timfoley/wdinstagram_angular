@@ -9,18 +9,20 @@
     "$stateProvider",
     RouterFunction
   ])
+  .factory("GramFactory", [
+    "$resource",
+    GramFactoryFunction
+  ])
   .controller("GramIndexController", [
     "GramFactory",
+    "$state",
     GramIndexControllerFunction
   ])
   .controller("GramShowController", [
     "GramFactory",
     "$stateParams",
+    "$state",
     GramShowControllerFunction
-  ])
-  .factory("GramFactory", [
-    "$resource",
-    GramFactoryFunction
   ])
 
 
@@ -43,16 +45,34 @@
 
   }
 
-  function GramIndexControllerFunction( GramFactory ){
+  function GramIndexControllerFunction( GramFactory, $state ){
     this.grams = GramFactory.query();
+    this.newGram = new GramFactory();
+    this.create = function() {
+      this.newGram.$save()
+      this.newGram = {}
+      $state.go("gramIndex", {}, {reload: true})
+    }
   }
 
-  function GramShowControllerFunction( GramFactory, $stateParams ){
+  function GramShowControllerFunction( GramFactory, $stateParams, $state ){
     this.gram = GramFactory.get({id: $stateParams.id})
+    this.update = function(){
+      this.gram.$update({id: $stateParams.id})
+    }
+    this.destroy = function(){
+      this.gram.$delete({id: $stateParams.id})
+      $state.go("gramIndex", {}, {reload: true})
+    }
   }
 
   function GramFactoryFunction( $resource ){
-    return $resource( "http://localhost:3000/entries/:id" );
+    //    return $resource( "http://localhost:3000/grumbles/:id", {}, {
+    //     update: { method: "PUT" }
+    // });
+    return $resource( "http://localhost:3000/entries/:id", {}, {
+      update: {method: "PUT"}
+    } );
   }
 
 })();

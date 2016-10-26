@@ -3,3 +3,12 @@
   <img ng-src="{{vm.gram.photo_url}}" alt="">
   <p><a data-ui-sref="gramShow({id: vm.gram.id })"></a>{{vm.gram.body}} <em>by {{vm.gram.author}}</em></p>
 </div>
+<h2>Edit this One</h2>
+<form data-ng-submit="vm.update()">
+  <input data-ng-model="vm.gram.body">
+  <input data-ng-model="vm.gram.author">
+  <input data-ng-model="vm.gram.photo_url">
+  <button type="submit">Update Gram</button>
+  <button data-ng-click="vm.destroy()">Delete</button>
+</form>
+<p>></a></p>
