@@ -1,0 +1,12 @@
+<h2>Photos</h2>
+<div data-ng-repeat="gram in vm.grams">
+  <img ng-src="{{gram.photo_url}}" alt="">
+  <p><a data-ui-sref="gramShow({id: gram.id })">{{gram.body}}</a> <em>by {{gram.author}}</em></p>
+</div>
+<h2>Add Photo</h2>
+<form data-ng-submit="vm.create()">
+  <input placeholder="Caption" data-ng-model="vm.newGram.body">
+  <input placeholder="Author" data-ng-model="vm.newGram.author">
+  <input placeholder="Photo URL" data-ng-model="vm.newGram.photo_url">
+  <button type="submit">Add Gram</button>
+</form>
